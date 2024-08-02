@@ -18,10 +18,10 @@ class VenodrProfileRepositoryImpl implements VendorProfileRepository {
     required this.networkInfo,
   });
   @override
-  Future<Either<Failure, VendorProfileEntity>> getVendor() async {
+  Future<Either<Failure, VendorProfileEntity>> getVendor(int proId) async {
     if (await networkInfo.isConnectedToInternet) {
       try {
-        final data = await vendorProfileRemoteDataSource.getCoupons();
+        final data = await vendorProfileRemoteDataSource.getCoupons(proId);
 
         return Right(data.toEntity());
       } on ServerException catch (serverException) {

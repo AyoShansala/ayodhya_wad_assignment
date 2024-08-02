@@ -5,8 +5,9 @@ abstract class VendorProfileEvent extends Equatable {
 }
 
 class GetVendorProfileDataEvent extends VendorProfileEvent {
+  final int proId;
   final bool isRefresh;
-  const GetVendorProfileDataEvent({this.isRefresh = false});
+  const GetVendorProfileDataEvent({required this.proId, this.isRefresh = false});
   @override
-  List<Object?> get props => [isRefresh];
+  List<Object?> get props => [proId,isRefresh];
 }

@@ -7,7 +7,7 @@ import '../../../../util/api_endpoints.dart';
 import '../model/vendor_profile_model.dart';
 
 abstract class VendorProfileRemoteDataSource {
-  Future<VendorProfileModel> getCoupons();
+  Future<VendorProfileModel> getCoupons(int proId);
 }
 
 class VendorProfileRemoteDataSourceImpl implements VendorProfileRemoteDataSource {
@@ -16,10 +16,10 @@ class VendorProfileRemoteDataSourceImpl implements VendorProfileRemoteDataSource
     required this.dioClient,
   });
   @override
-  Future<VendorProfileModel> getCoupons() async {
-    debugPrint('#32344 Api Vendor profile: ${ApiEndpoints.vendorProfile}');
+  Future<VendorProfileModel> getCoupons(int proId) async {
+    debugPrint('#32344 Api Vendor profile: ${ApiEndpoints.vendorProfile}$proId');
     try {
-      Response response = await dioClient.public.get(ApiEndpoints.vendorProfile);
+      Response response = await dioClient.public.get("${ApiEndpoints.vendorProfile}$proId");
       debugPrint('#32344 response Vendor data: ${response.data}');
       return vendorProfileModelFromJson(response.data);
     } on DioException catch (err) {

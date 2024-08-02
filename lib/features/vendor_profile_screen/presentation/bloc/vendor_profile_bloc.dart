@@ -27,7 +27,7 @@ class VendorProfileBloc extends Bloc<VendorProfileEvent, VendorProfileState> {
       ));
     }
 
-    final result = await vendorProfileUsecase(NoParams());
+    final result = await vendorProfileUsecase(event.proId);
 
     result.fold((failure) {
       String message = '';

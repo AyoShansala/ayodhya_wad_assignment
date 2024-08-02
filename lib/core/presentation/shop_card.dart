@@ -168,9 +168,6 @@ class ShopCard extends StatelessWidget {
                 right: 10.w,
                 child: GestureDetector(
                   onTap: () {
-                    // setState(() {
-                    //   isClickedActive = !isClickedActive; // Toggle the state
-                    // });
                     debugPrint('Heart Clicked');
                   },
                   child: SvgPicture.asset(

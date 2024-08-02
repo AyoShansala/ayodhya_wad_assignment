@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../core/presentation/shimmer_builder.dart';
 import '../../../core/presentation/shop_card.dart';
 import '../../../injector.dart';
 import 'widgets/bottom_nav_item.dart';
@@ -258,10 +259,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                             ),
                                             itemCount: 5,
                                             itemBuilder: (context, index) {
-                                              return Container(
+                                              return SizedBox(
                                                 height: 280.h,
                                                 width: 176.w,
-                                                color: Colors.greenAccent,
+                                                child: shimmerLoader(),
                                               );
                                             },
                                           )
@@ -281,9 +282,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) => VendorProfileScreenWrapper(
-                                                              //  name: state.parentCompanyData![index].name,
-                                                              // proImg: state.parentCompanyData![index].profileImg,
-                                                              ),
+                                                            //  name: state.parentCompanyData![index].name,
+                                                            // proImg: state.parentCompanyData![index].profileImg,
+                                                            proId: state.couponDataEntity![index].parentCompanyId,
+                                                          ),
                                                         ),
                                                       );
                                                     },
@@ -333,10 +335,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                             ),
                                             itemCount: 5,
                                             itemBuilder: (context, index) {
-                                              return Container(
+                                              return SizedBox(
                                                 height: 280.h,
                                                 width: 176.w,
-                                                color: Colors.greenAccent,
+                                                child: shimmerLoader(),
                                               );
                                             },
                                           )
@@ -356,9 +358,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) => VendorProfileScreenWrapper(
-                                                              // name: state.parentCompanyData![index].name,
-                                                              // proImg: state.parentCompanyData![index].profileImg,
-                                                              ),
+                                                            // name: state.parentCompanyData![index].name,
+                                                            // proImg: state.parentCompanyData![index].profileImg,
+                                                            // proId: 192,
+                                                            proId: state.parentCompanyData![index].parentCompanyId,
+                                                          ),
                                                         ),
                                                       );
                                                     },
@@ -385,7 +389,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ),
 
         /// Bottom Navigation Bar
-        bottomNavigationBar: BottomNavBar(),
+        // bottomNavigationBar: BottomNavBar(),
       ),
     );
   }

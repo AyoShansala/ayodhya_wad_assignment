@@ -10,26 +10,27 @@ import '../../../core/presentation/shimmer_builder.dart';
 import '../../../injector.dart';
 
 class VendorProfileScreenWrapper extends StatelessWidget {
-  const VendorProfileScreenWrapper({super.key});
+  final int proId;
+
+  const VendorProfileScreenWrapper({super.key, required this.proId});
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider<VendorProfileBloc>(
-        create: (context) => sl<VendorProfileBloc>(),
-      ),
-    ], child: VendorProfileScreen());
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<VendorProfileBloc>(
+            create: (context) => sl<VendorProfileBloc>(),
+          ),
+        ],
+        child: VendorProfileScreen(
+          proId: proId,
+        ));
   }
 }
 
 class VendorProfileScreen extends StatefulWidget {
-  // final String name;
-  // final String proImg;
-  const VendorProfileScreen({
-    super.key,
-    // required this.name,
-    // required this.proImg,
-  });
+  final int proId;
+  const VendorProfileScreen({super.key, required this.proId});
 
   @override
   State<VendorProfileScreen> createState() => _VendorProfileScreenState();
@@ -43,7 +44,7 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<VendorProfileBloc>().add(GetVendorProfileDataEvent());
+    context.read<VendorProfileBloc>().add(GetVendorProfileDataEvent(proId: widget.proId));
   }
 
   @override
@@ -59,187 +60,238 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
             }
           },
           builder: (context, state) {
-            return Column(
-              children: [
-                // profile
-                Padding(
-                  padding: EdgeInsets.only(left: 28.w, right: 14.w, top: 30.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // vendor profile image
-                      Container(
-                        width: 102.h,
-                        height: 102.h,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xffede8e8), width: 0.25),
-                          borderRadius: BorderRadius.circular(51.r),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x80dadada),
-                              offset: Offset(5, 6),
-                              blurRadius: 14,
-                              spreadRadius: 0,
-                            ),
-                          ],
-                          color: const Color(0xffffffff),
-                        ),
-                        child: Center(
-                          child: SizedBox(
-                              width: 78.h,
-                              height: 78.h,
-                              child: CachedNetworkImage(
-                                imageUrl: "https://staging-admin.slashdeals.lk${state.vendorProfileEntity?.profileImg}",
-                                placeholder: (context, url) => shimmerLoader(),
-                                errorWidget: (context, url, error) => Image.asset('assets/images/profileImg.png', fit: BoxFit.cover),
-                                useOldImageOnUrlChange: true,
-                                fit: BoxFit.contain,
-                              )
-                              // child: Image.asset('assets/images/profileImg.png', fit: BoxFit.cover),
+            return SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  // profile
+                  Padding(
+                    padding: EdgeInsets.only(left: 28.w, right: 14.w, top: 30.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // vendor profile image
+                        Container(
+                          width: 102.h,
+                          height: 102.h,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xffede8e8), width: 0.25),
+                            borderRadius: BorderRadius.circular(51.r),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x80dadada),
+                                offset: Offset(5, 6),
+                                blurRadius: 14,
+                                spreadRadius: 0,
                               ),
-                        ),
-                      ),
-                      // close button
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          width: 44.h,
-                          height: 44.h,
-                          decoration: const BoxDecoration(
-                            color: Color(0xffffe400),
-                            shape: BoxShape.circle,
+                            ],
+                            color: const Color(0xffffffff),
                           ),
                           child: Center(
-                            child: Icon(
-                              Icons.close,
-                              size: 22.h,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                // profile details
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 28.w,
-                    right: 28.w,
-                    top: 12.h,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // name
-                          Text(
-                            "Car Shop",
-                            style: TextStyle(
-                              color: const Color(0xff262a64),
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "Barlow",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 24.sp,
-                            ),
-                          ),
-                          // description
-                          Text(
-                            "Coffee and Break Shop",
-                            style: TextStyle(
-                              color: Color(0xffb7bbe3),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Poppins",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // points
-                      Container(
-                        width: 58.w,
-                        height: 40.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(37.r)),
-                          boxShadow: const [
-                            BoxShadow(color: Color(0x7ca020ef), offset: Offset(4, 6), blurRadius: 18, spreadRadius: 0),
-                          ],
-                          color: const Color(0xffa020ef),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "4.5",
-                            style: TextStyle(
-                              color: const Color(0xffffffff),
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "Poppins",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // tab buttons
-                Padding(
-                  padding: EdgeInsets.only(top: 30.h, bottom: 10.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildTabButton(TabBarItem.Coupons),
-                      _buildTabButton(TabBarItem.Information),
-                    ],
-                  ),
-                ),
-                // tab bar view
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xfff2f5fe),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 11.w, right: 11.w, top: 14.h),
-                    child: ValueListenableBuilder(
-                      valueListenable: _selectedTab,
-                      builder: (context, TabBarItem tab, child) {
-                        return tab == TabBarItem.Coupons
-                            ? SizedBox(
-                                height: 560.h,
-                                width: double.infinity,
-                                child: GridView.builder(
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 200,
-                                    childAspectRatio: 0.8,
-                                    crossAxisSpacing: 20,
-                                    mainAxisSpacing: 20,
-                                  ),
-                                  itemCount: 6,
-                                  itemBuilder: (context, index) {
-                                    return DummyCard();
-                                  },
+                            child: SizedBox(
+                                width: 78.h,
+                                height: 78.h,
+                                child: CachedNetworkImage(
+                                  imageUrl: "https://staging-admin.slashdeals.lk${state.vendorProfileEntity?.profileImg}",
+                                  placeholder: (context, url) => shimmerLoader(),
+                                  errorWidget: (context, url, error) => Image.asset('assets/images/profileImg.png', fit: BoxFit.cover),
+                                  useOldImageOnUrlChange: true,
+                                  fit: BoxFit.contain,
+                                )
+                                // child: Image.asset('assets/images/profileImg.png', fit: BoxFit.cover),
                                 ),
-                              )
-                            : Column(
-                                children: [
-                                  Container(
-                                    width: 100,
-                                    height: 60,
-                                    color: Colors.amber,
-                                    child: Center(child: Text("Not Impliment")),
-                                  )
-                                ],
-                              );
-                      },
+                          ),
+                        ),
+                        // close button
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            width: 44.h,
+                            height: 44.h,
+                            decoration: const BoxDecoration(
+                              color: Color(0xffffe400),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.close,
+                                size: 22.h,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
+                  // profile details
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 28.w,
+                      right: 28.w,
+                      top: 12.h,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // name
+                            Text(
+                              state.vendorProfileEntity?.name ?? '',
+                              style: TextStyle(
+                                color: const Color(0xff262a64),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Barlow",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 24.sp,
+                              ),
+                            ),
+                            // description
+                            SizedBox(
+                              width: 270,
+                              child: Text(
+                                state.vendorProfileEntity?.description ?? '',
+                                style: TextStyle(
+                                  color: Color(0xffb7bbe3),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Poppins",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.sp,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                maxLines: 2,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // points
+                        Container(
+                          width: 58.w,
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(37.r)),
+                            boxShadow: const [
+                              BoxShadow(color: Color(0x7ca020ef), offset: Offset(4, 6), blurRadius: 18, spreadRadius: 0),
+                            ],
+                            color: const Color(0xffa020ef),
+                          ),
+                          child: Center(
+                            child: Text(
+                              state.vendorProfileEntity?.rating.toString() ?? '',
+                              style: TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Poppins",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // tab buttons
+                  Padding(
+                    padding: EdgeInsets.only(top: 30.h, bottom: 10.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildTabButton(TabBarItem.Coupons),
+                        _buildTabButton(TabBarItem.Information),
+                      ],
+                    ),
+                  ),
+                  // tab bar view
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Color(0xfff2f5fe),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 11.w, right: 11.w, top: 14.h),
+                      child: ValueListenableBuilder(
+                        valueListenable: _selectedTab,
+                        builder: (context, TabBarItem tab, child) {
+                          return tab == TabBarItem.Coupons
+                              ? SizedBox(
+                                  height: 560.h,
+                                  width: double.infinity,
+                                  child: GridView.builder(
+                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 200,
+                                      childAspectRatio: 0.8,
+                                      crossAxisSpacing: 20,
+                                      mainAxisSpacing: 20,
+                                    ),
+                                    itemCount: state.vendorProfileEntity?.coupons.length,
+                                    itemBuilder: (context, index) {
+                                      return state.status == VendorProfileStatus.initial
+                                          ? GridView.builder(
+                                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                maxCrossAxisExtent: 200,
+                                                childAspectRatio: 0.8,
+                                                crossAxisSpacing: 20,
+                                                mainAxisSpacing: 20,
+                                              ),
+                                              itemCount: 5,
+                                              itemBuilder: (context, index) {
+                                                return Container(
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10.r))),
+                                                  height: 280.h,
+                                                  width: 176.w,
+                                                  child: shimmerLoader(),
+                                                );
+                                              },
+                                            )
+                                          : state.status == VendorProfileStatus.initial
+                                              ? Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 6.w),
+                                                  child: const Text("Pull Down To Re-fresh"),
+                                                )
+                                              : (state.vendorProfileEntity?.coupons ?? []).isEmpty
+                                                  ? Padding(
+                                                      padding: EdgeInsets.symmetric(horizontal: 6.w),
+                                                      child: const Text("No Data Found"),
+                                                    )
+                                                  : DummyCard(
+                                                      title: state.vendorProfileEntity!.coupons[index].title,
+                                                      maxSave: state.vendorProfileEntity!.coupons[index].maxSaving,
+                                                      description: state.vendorProfileEntity!.coupons[index].description,
+                                                      thumbnail: state.vendorProfileEntity!.coupons[index].thumbnail,
+                                                    );
+                                    },
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 560.h,
+                                  width: double.infinity,
+                                  child: GridView.builder(
+                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 200,
+                                      childAspectRatio: 0.8,
+                                      crossAxisSpacing: 20,
+                                      mainAxisSpacing: 20,
+                                    ),
+                                    itemCount: 5,
+                                    itemBuilder: (context, index) {
+                                      return DummyCard(
+                                        title: "Title",
+                                        description: "Description Here",
+                                        maxSave: -999,
+                                      );
+                                    },
+                                  ),
+                                );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
             );
           },
         ),

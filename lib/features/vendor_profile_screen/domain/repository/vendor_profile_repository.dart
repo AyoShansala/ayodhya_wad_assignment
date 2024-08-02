@@ -4,5 +4,5 @@ import 'package:dartz/dartz.dart';
 import '../entity/vendor_profile_entity.dart';
 
 abstract class VendorProfileRepository {
-  Future<Either<Failure, VendorProfileEntity>> getVendor();
+  Future<Either<Failure, VendorProfileEntity>> getVendor(int proId);
 }

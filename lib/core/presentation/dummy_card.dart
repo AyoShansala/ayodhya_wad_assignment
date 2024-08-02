@@ -8,8 +8,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../util/colors.dart';
 
 class DummyCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final int maxSave;
+  final String thumbnail;
   const DummyCard({
     super.key,
+    this.title = '',
+    this.description = '',
+    this.maxSave = -999,
+    this.thumbnail = '',
   });
 
   @override
@@ -34,6 +42,13 @@ class DummyCard extends StatelessWidget {
                 height: 52.h,
                 width: double.infinity,
                 color: kColorWhite,
+                // child: CachedNetworkImage(
+                //   imageUrl: "https://staging-admin.slashdeals.lk$coverImg",
+                //   placeholder: (context, url) => shimmerLoader(),
+                //   errorWidget: (context, url, error) => Image.asset('assets/images/backImage.png', fit: BoxFit.cover),
+                //   useOldImageOnUrlChange: true,
+                //   fit: BoxFit.cover,
+                // ),
                 child: Image.asset('assets/images/backImage.png', fit: BoxFit.cover),
               ),
 
@@ -79,7 +94,7 @@ class DummyCard extends StatelessWidget {
                   children: [
                     // company name
                     Text(
-                      "Starbucks",
+                      title,
                       style: TextStyle(
                         color: const Color(0xff262a64),
                         fontWeight: FontWeight.w500,
@@ -99,18 +114,18 @@ class DummyCard extends StatelessWidget {
                         ),
                         TextSpan(
                           style: TextStyle(color: const Color(0xffa100f3), fontWeight: FontWeight.w700, fontFamily: "Barlow", fontStyle: FontStyle.normal, fontSize: 28.sp),
-                          text: "1,500",
+                          text: maxSave.toString(),
                         ),
                         TextSpan(style: TextStyle(color: const Color(0xffa100f3), fontWeight: FontWeight.w300, fontFamily: "Barlow", fontStyle: FontStyle.normal, fontSize: 12.sp), text: "LKR")
                       ])),
                     ),
                     // description
                     Padding(
-                      padding: EdgeInsets.only(top: 20.h, bottom: 8.0.h),
+                      padding: EdgeInsets.only(top: 15.h, bottom: 8.0.h),
                       child: SizedBox(
                         width: 156.w,
                         child: Text(
-                          "Enjoy a 20% Discount on Grande Coffee",
+                          description,
                           style: const TextStyle(
                             color: Color(0xff979ac0),
                             fontWeight: FontWeight.w400,
@@ -118,7 +133,7 @@ class DummyCard extends StatelessWidget {
                             fontStyle: FontStyle.normal,
                             fontSize: 14.0,
                           ),
-                          maxLines: 3,
+                          maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
