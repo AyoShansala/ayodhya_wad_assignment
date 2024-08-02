@@ -280,10 +280,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                          builder: (context) => VendorProfileScreen(
-                                                             name: state.parentCompanyData![index].name,
-                                                            proImg: state.parentCompanyData![index].profileImg,
-                                                          ),
+                                                          builder: (context) => VendorProfileScreenWrapper(
+                                                              //  name: state.parentCompanyData![index].name,
+                                                              // proImg: state.parentCompanyData![index].profileImg,
+                                                              ),
                                                         ),
                                                       );
                                                     },
@@ -355,10 +355,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                          builder: (context) => VendorProfileScreen(
-                                                            name: state.parentCompanyData![index].name,
-                                                            proImg: state.parentCompanyData![index].profileImg,
-                                                          ),
+                                                          builder: (context) => VendorProfileScreenWrapper(
+                                                              // name: state.parentCompanyData![index].name,
+                                                              // proImg: state.parentCompanyData![index].profileImg,
+                                                              ),
                                                         ),
                                                       );
                                                     },

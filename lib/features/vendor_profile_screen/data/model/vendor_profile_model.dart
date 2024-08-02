@@ -1,212 +1,334 @@
-// // To parse this JSON data, do
-// //
-// //     final vendorProfileModel = vendorProfileModelFromJson(jsonString);
+// To parse this JSON data, do
+//
+//     final vendorProfileModel = vendorProfileModelFromJson(jsonString);
 
-// import 'dart:convert';
+import 'dart:convert';
 
-// VendorProfileModel vendorProfileModelFromJson(String str) => VendorProfileModel.fromJson(json.decode(str));
+import 'package:ayodhya_wad_assignment/features/vendor_profile_screen/domain/entity/company_data_entity.dart';
+import 'package:ayodhya_wad_assignment/features/vendor_profile_screen/domain/entity/coupon_entity.dart';
+import 'package:ayodhya_wad_assignment/features/vendor_profile_screen/domain/entity/vendor_profile_entity.dart';
+import 'package:equatable/equatable.dart';
 
-// String vendorProfileModelToJson(VendorProfileModel data) => json.encode(data.toJson());
+VendorProfileModel vendorProfileModelFromJson(String str) => VendorProfileModel.fromJson(json.decode(str));
 
-// class VendorProfileModel {
-//     final String? status;
-//     final CompanyData? companyData;
-//     final dynamic subscribedPackage;
-//     final List<dynamic>? slashedCoupons;
-//     final List<dynamic>? userSpecificCoupons;
+String vendorProfileModelToJson(VendorProfileModel data) => json.encode(data.toJson());
 
-//     VendorProfileModel({
-//         this.status,
-//         this.companyData,
-//         this.subscribedPackage,
-//         this.slashedCoupons,
-//         this.userSpecificCoupons,
-//     });
+class VendorProfileModel extends Equatable {
+  final String? status;
+  final CompanyData? companyData;
+  final dynamic subscribedPackage;
+  final List<dynamic>? slashedCoupons;
+  final List<dynamic>? userSpecificCoupons;
 
-//     factory VendorProfileModel.fromJson(Map<String, dynamic> json) => VendorProfileModel(
-//         status: json["status"],
-//         companyData: CompanyData.fromJson(json["companyData"]),
-//         subscribedPackage: json["subscribedPackage"],
-//         slashedCoupons: List<dynamic>.from(json["slashedCoupons"].map((x) => x)),
-//         userSpecificCoupons: List<dynamic>.from(json["userSpecificCoupons"].map((x) => x)),
-//     );
+  VendorProfileModel({
+    this.status,
+    this.companyData,
+    this.subscribedPackage,
+    this.slashedCoupons,
+    this.userSpecificCoupons,
+  });
 
-//     Map<String, dynamic> toJson() => {
-//         "status": status,
-//         "companyData": companyData.toJson(),
-//         "subscribedPackage": subscribedPackage,
-//         "slashedCoupons": List<dynamic>.from(slashedCoupons.map((x) => x)),
-//         "userSpecificCoupons": List<dynamic>.from(userSpecificCoupons.map((x) => x)),
-//     };
-// }
+  factory VendorProfileModel.fromJson(Map<String, dynamic> json) => VendorProfileModel(
+        status: json["status"],
+        companyData: json["companyData"] == null ? null : CompanyData.fromJson(json["companyData"]),
+        subscribedPackage: json["subscribedPackage"],
+        slashedCoupons: json["slashedCoupons"] == null ? null : List<dynamic>.from(json["slashedCoupons"].map((x) => x)),
+        userSpecificCoupons: json["userSpecificCoupons"] == null ? null : List<dynamic>.from(json["userSpecificCoupons"].map((x) => x)),
+      );
 
-// class CompanyData {
-//     final int id;
-//     final String name;
-//     final dynamic subName;
-//     final String description;
-//     final String addressLineOne;
-//     final int city;
-//     final int district;
-//     final int province;
-//     final int country;
-//     final int postalCode;
-//     final String website;
-//     final dynamic menuLink;
-//     final String hotlineNumber;
-//     final dynamic phoneNumberOne;
-//     final dynamic phoneNumberTwo;
-//     final int isActive;
-//     final int updatedBy;
-//     final DateTime createdAt;
-//     final DateTime updatedAt;
-//     final String facebook;
-//     final dynamic instagram;
-//     final String vendorContactEmail;
-//     final String tags;
-//     final dynamic termsConditions;
-//     final String siteUrl;
-//     final String profileImg;
-//     final String coverImg;
-//     final List<Img> menuImg;
-//     final int rating;
-//     final List<Img> bannerImg;
-//     final List<Company> company;
-//     final List<ParentComCategoryDatum> parentComCategoryData;
-//     final CityData cityData;
-//     final Data districtData;
-//     final Data provinceData;
-//     final CountryData countryData;
-//     final dynamic socialLinks;
-//     final List<Coupon> coupons;
-//     final List<Media> media;
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "companyData": companyData?.toJson(),
+        "subscribedPackage": subscribedPackage,
+        "slashedCoupons": List<dynamic>.from(slashedCoupons!.map((x) => x)),
+        "userSpecificCoupons": List<dynamic>.from(userSpecificCoupons!.map((x) => x)),
+      };
 
-//     CompanyData({
-//         this.id,
-//         this.name,
-//         this.subName,
-//         this.description,
-//         this.addressLineOne,
-//         this.city,
-//         this.district,
-//         this.province,
-//         this.country,
-//         this.postalCode,
-//         this.website,
-//         this.menuLink,
-//         this.hotlineNumber,
-//         this.phoneNumberOne,
-//         this.phoneNumberTwo,
-//         this.isActive,
-//         this.updatedBy,
-//         this.createdAt,
-//         this.updatedAt,
-//         this.facebook,
-//         this.instagram,
-//         this.vendorContactEmail,
-//         this.tags,
-//         this.termsConditions,
-//         this.siteUrl,
-//         this.profileImg,
-//         this.coverImg,
-//         this.menuImg,
-//         this.rating,
-//         this.bannerImg,
-//         this.company,
-//         this.parentComCategoryData,
-//         this.cityData,
-//         this.districtData,
-//         this.provinceData,
-//         this.countryData,
-//         this.socialLinks,
-//         this.coupons,
-//         this.media,
-//     });
+  VendorProfileEntity toEntity() {
+    return VendorProfileEntity(
+      status: status ?? '',
+      subscribedPackage: subscribedPackage,
+      slashedCoupons: slashedCoupons ?? [],
+      userSpecificCoupons: userSpecificCoupons ?? [],
+      companyData: CompanyDataEntity(
+        id: companyData!.id ?? -9999,
+        name: companyData!.name ?? 'N/A',
+        subName: companyData!.subName ?? 'N/A',
+        description: companyData!.description ?? 'N/A',
+        addressLineOne: companyData!.addressLineOne ?? 'N/A',
+        city: companyData!.city ?? -9999,
+        district: companyData!.district ?? -9999,
+        province: companyData!.province ?? -9999,
+        country: companyData!.country ?? -9999,
+        postalCode: companyData!.postalCode ?? -9999,
+        website: companyData!.website ?? 'N/A',
+        menuLink: companyData!.menuLink ?? 'N/A',
+        hotlineNumber: companyData!.hotlineNumber ?? 'N/A',
+        phoneNumberOne: companyData!.phoneNumberOne ?? 'N/A',
+        phoneNumberTwo: companyData!.phoneNumberTwo ?? 'N/A',
+        isActive: companyData!.isActive ?? -9999,
+        updatedBy: companyData!.updatedBy ?? -99999,
+        createdAt: companyData!.createdAt ?? DateTime(2024),
+        updatedAt: companyData!.updatedAt ?? DateTime(2024),
+        facebook: companyData!.facebook ?? 'N/A',
+        instagram: companyData!.instagram ?? 'N/A',
+        vendorContactEmail: companyData!.vendorContactEmail ?? 'N/A',
+        tags: companyData!.tags ?? 'N/A',
+        termsConditions: companyData!.termsConditions ?? 'N/A',
+        siteUrl: companyData!.siteUrl ?? 'N/A',
+        profileImg: companyData!.profileImg ?? 'N/A',
+        coverImg: companyData!.coverImg ?? 'N/A',
+        rating: companyData!.rating ?? -9999,
+        socialLinks: companyData!.socialLinks ?? 'N/A',
+        coupons: List.from((companyData!.coupons ??
+            []).map((data) {
+              return CouponEntity(
+                id: data.id ?? -9999,
+                title: data.title ?? 'N/A',
+                subtitle: data.subtitle ?? 'N/A',
+                description: data.description ?? 'N/A',
+                parentCompanyId: data.parentCompanyId ?? -9999,
+                value: data.value ?? -9999,
+                valueType: data.valueType ?? 'N/A',
+                systemMaxSlash: data.systemMaxSlash ?? -9999,
+                customerMaxSlash: data.customerMaxSlash ?? -9999,
+                minSaving: data.minSaving ?? -9999,
+                maxSaving: data.maxSaving ?? -9999,
+                validFrom: data.validFrom ?? DateTime(2024),
+                validTo: data.validTo ?? DateTime(2024),
+                moreInfo: data.moreInfo ?? 'N/A',
+                termsConditions: data.termsConditions ?? 'N/A',
+                isActive: data.isActive ?? -9999,
+                isSpecialCoupon: data.isSpecialCoupon ?? -9999,
+                createdAt: data.createdAt ?? DateTime(2024),
+                updatedAt: data.updatedAt ?? DateTime(2024),
+                isLimited: data.isLimited ?? -9999,
+                couponTags: data.couponTags ?? 'N/A',
+                isUser: data.isUser ?? -9999,
+                isForEveryone: data.isForEveryone ?? -9999,
+                isAvailableForExpired: data.isAvailableForExpired ?? -9999,
+                hasFavorited: data.hasFavorited ?? -9999,
+                thumbnail: data.thumbnail ?? 'N/A',
+              );
+            })),
+      ),
+    );
+  }
 
-//     factory CompanyData.fromJson(Map<String, dynamic> json) => CompanyData(
-//         id: json["id"],
-//         name: json["name"],
-//         subName: json["sub_name"],
-//         description: json["description"],
-//         addressLineOne: json["address_line_one"],
-//         city: json["city"],
-//         district: json["district"],
-//         province: json["province"],
-//         country: json["country"],
-//         postalCode: json["postal_code"],
-//         website: json["website"],
-//         menuLink: json["menu_link"],
-//         hotlineNumber: json["hotline_number"],
-//         phoneNumberOne: json["phone_number_one"],
-//         phoneNumberTwo: json["phone_number_two"],
-//         isActive: json["is_active"],
-//         updatedBy: json["updated_by"],
-//         createdAt: DateTime.parse(json["created_at"]),
-//         updatedAt: DateTime.parse(json["updated_at"]),
-//         facebook: json["facebook"],
-//         instagram: json["instagram"],
-//         vendorContactEmail: json["vendor_contact_email"],
-//         tags: json["tags"],
-//         termsConditions: json["terms_conditions"],
-//         siteUrl: json["site_url"],
-//         profileImg: json["profile_img"],
-//         coverImg: json["cover_img"],
-//         menuImg: List<Img>.from(json["menu_img"].map((x) => Img.fromJson(x))),
-//         rating: json["rating"],
-//         bannerImg: List<Img>.from(json["banner_img"].map((x) => Img.fromJson(x))),
-//         company: List<Company>.from(json["company"].map((x) => Company.fromJson(x))),
-//         parentComCategoryData: List<ParentComCategoryDatum>.from(json["parent_com_category_data"].map((x) => ParentComCategoryDatum.fromJson(x))),
-//         cityData: CityData.fromJson(json["city_data"]),
-//         districtData: Data.fromJson(json["district_data"]),
-//         provinceData: Data.fromJson(json["province_data"]),
-//         countryData: CountryData.fromJson(json["country_data"]),
-//         socialLinks: json["social_links"],
-//         coupons: List<Coupon>.from(json["coupons"].map((x) => Coupon.fromJson(x))),
-//         media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
-//     );
+  @override
+  List<Object?> get props => [status, companyData, subscribedPackage, slashedCoupons, userSpecificCoupons];
+}
 
-//     Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "name": name,
-//         "sub_name": subName,
-//         "description": description,
-//         "address_line_one": addressLineOne,
-//         "city": city,
-//         "district": district,
-//         "province": province,
-//         "country": country,
-//         "postal_code": postalCode,
-//         "website": website,
-//         "menu_link": menuLink,
-//         "hotline_number": hotlineNumber,
-//         "phone_number_one": phoneNumberOne,
-//         "phone_number_two": phoneNumberTwo,
-//         "is_active": isActive,
-//         "updated_by": updatedBy,
-//         "created_at": createdAt.toIso8601String(),
-//         "updated_at": updatedAt.toIso8601String(),
-//         "facebook": facebook,
-//         "instagram": instagram,
-//         "vendor_contact_email": vendorContactEmail,
-//         "tags": tags,
-//         "terms_conditions": termsConditions,
-//         "site_url": siteUrl,
-//         "profile_img": profileImg,
-//         "cover_img": coverImg,
-//         "menu_img": List<dynamic>.from(menuImg.map((x) => x.toJson())),
-//         "rating": rating,
-//         "banner_img": List<dynamic>.from(bannerImg.map((x) => x.toJson())),
-//         "company": List<dynamic>.from(company.map((x) => x.toJson())),
-//         "parent_com_category_data": List<dynamic>.from(parentComCategoryData.map((x) => x.toJson())),
-//         "city_data": cityData.toJson(),
-//         "district_data": districtData.toJson(),
-//         "province_data": provinceData.toJson(),
-//         "country_data": countryData.toJson(),
-//         "social_links": socialLinks,
-//         "coupons": List<dynamic>.from(coupons.map((x) => x.toJson())),
-//         "media": List<dynamic>.from(media.map((x) => x.toJson())),
-//     };
-// }
+class CompanyData extends Equatable {
+  final int? id;
+  final String? name;
+  final dynamic subName;
+  final String? description;
+  final String? addressLineOne;
+  final int? city;
+  final int? district;
+  final int? province;
+  final int? country;
+  final int? postalCode;
+  final String? website;
+  final dynamic menuLink;
+  final String? hotlineNumber;
+  final dynamic phoneNumberOne;
+  final dynamic phoneNumberTwo;
+  final int? isActive;
+  final int? updatedBy;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? facebook;
+  final dynamic instagram;
+  final String? vendorContactEmail;
+  final String? tags;
+  final dynamic termsConditions;
+  final String? siteUrl;
+  final String? profileImg;
+  final String? coverImg;
+  // final List<Img> menuImg;
+  final int? rating;
+  // final List<Img> bannerImg;
+  // final List<Company> company;
+  // final List<ParentComCategoryDatum> parentComCategoryData;
+  // final CityData cityData;
+  // final Data districtData;
+  // final Data provinceData;
+  // final CountryData countryData;
+  final dynamic socialLinks;
+  final List<Coupon>? coupons;
+  // final List<Media> media;
+
+  CompanyData({
+    this.id,
+    this.name,
+    this.subName,
+    this.description,
+    this.addressLineOne,
+    this.city,
+    this.district,
+    this.province,
+    this.country,
+    this.postalCode,
+    this.website,
+    this.menuLink,
+    this.hotlineNumber,
+    this.phoneNumberOne,
+    this.phoneNumberTwo,
+    this.isActive,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.facebook,
+    this.instagram,
+    this.vendorContactEmail,
+    this.tags,
+    this.termsConditions,
+    this.siteUrl,
+    this.profileImg,
+    this.coverImg,
+    // this.menuImg,
+    this.rating,
+    // this.bannerImg,
+    // this.company,
+    // this.parentComCategoryData,
+    // this.cityData,
+    // this.districtData,
+    // this.provinceData,
+    // this.countryData,
+    this.socialLinks,
+    this.coupons,
+    // this.media,
+  });
+
+  factory CompanyData.fromJson(Map<String, dynamic> json) => CompanyData(
+        id: json["id"],
+        name: json["name"],
+        subName: json["sub_name"],
+        description: json["description"],
+        addressLineOne: json["address_line_one"],
+        city: json["city"],
+        district: json["district"],
+        province: json["province"],
+        country: json["country"],
+        postalCode: json["postal_code"],
+        website: json["website"],
+        menuLink: json["menu_link"],
+        hotlineNumber: json["hotline_number"],
+        phoneNumberOne: json["phone_number_one"],
+        phoneNumberTwo: json["phone_number_two"],
+        isActive: json["is_active"],
+        updatedBy: json["updated_by"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        facebook: json["facebook"],
+        instagram: json["instagram"],
+        vendorContactEmail: json["vendor_contact_email"],
+        tags: json["tags"],
+        termsConditions: json["terms_conditions"],
+        siteUrl: json["site_url"],
+        profileImg: json["profile_img"],
+        coverImg: json["cover_img"],
+        // menuImg: List<Img>.from(json["menu_img"].map((x) => Img.fromJson(x))),
+        rating: json["rating"],
+        // bannerImg: List<Img>.from(json["banner_img"].map((x) => Img.fromJson(x))),
+        // company: List<Company>.from(json["company"].map((x) => Company.fromJson(x))),
+        // parentComCategoryData: List<ParentComCategoryDatum>.from(json["parent_com_category_data"].map((x) => ParentComCategoryDatum.fromJson(x))),
+        // cityData: CityData.fromJson(json["city_data"]),
+        // districtData: Data.fromJson(json["district_data"]),
+        // provinceData: Data.fromJson(json["province_data"]),
+        // countryData: CountryData.fromJson(json["country_data"]),
+        socialLinks: json["social_links"],
+        coupons: List<Coupon>.from(json["coupons"].map((x) => Coupon.fromJson(x))),
+        // media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "sub_name": subName,
+        "description": description,
+        "address_line_one": addressLineOne,
+        "city": city,
+        "district": district,
+        "province": province,
+        "country": country,
+        "postal_code": postalCode,
+        "website": website,
+        "menu_link": menuLink,
+        "hotline_number": hotlineNumber,
+        "phone_number_one": phoneNumberOne,
+        "phone_number_two": phoneNumberTwo,
+        "is_active": isActive,
+        "updated_by": updatedBy,
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+        "facebook": facebook,
+        "instagram": instagram,
+        "vendor_contact_email": vendorContactEmail,
+        "tags": tags,
+        "terms_conditions": termsConditions,
+        "site_url": siteUrl,
+        "profile_img": profileImg,
+        "cover_img": coverImg,
+        // "menu_img": List<dynamic>.from(menuImg.map((x) => x.toJson())),
+        "rating": rating,
+        // "banner_img": List<dynamic>.from(bannerImg.map((x) => x.toJson())),
+        // "company": List<dynamic>.from(company.map((x) => x.toJson())),
+        // "parent_com_category_data": List<dynamic>.from(parentComCategoryData.map((x) => x.toJson())),
+        // "city_data": cityData.toJson(),
+        // "district_data": districtData.toJson(),
+        // "province_data": provinceData.toJson(),
+        // "country_data": countryData.toJson(),
+        "social_links": socialLinks,
+        "coupons": List<dynamic>.from(coupons!.map((x) => x.toJson())),
+        // "media": List<dynamic>.from(media.map((x) => x.toJson())),
+      };
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        subName,
+        description,
+        addressLineOne,
+        city,
+        district,
+        province,
+        country,
+        postalCode,
+        website,
+        menuLink,
+        hotlineNumber,
+        phoneNumberOne,
+        phoneNumberTwo,
+        isActive,
+        updatedBy,
+        createdAt,
+        updatedAt,
+        facebook,
+        instagram,
+        vendorContactEmail,
+        tags,
+        termsConditions,
+        siteUrl,
+        profileImg,
+        coverImg,
+        // menuImg,
+        rating,
+        // bannerImg,
+        // company,
+        // parentComCategoryData,
+        // cityData,
+        // districtData,
+        // provinceData,
+        // countryData,
+        socialLinks,
+        coupons,
+        // media
+      ];
+}
 
 // class Img {
 //     final int id;
@@ -528,129 +650,161 @@
 //     };
 // }
 
-// class Coupon {
-//     final int id;
-//     final String title;
-//     final dynamic subtitle;
-//     final String description;
-//     final int parentCompanyId;
-//     final int value;
-//     final String valueType;
-//     final int systemMaxSlash;
-//     final int customerMaxSlash;
-//     final int minSaving;
-//     final int maxSaving;
-//     final DateTime validFrom;
-//     final DateTime validTo;
-//     final dynamic moreInfo;
-//     final String termsConditions;
-//     final int isActive;
-//     final int isSpecialCoupon;
-//     final DateTime createdAt;
-//     final DateTime updatedAt;
-//     final int isLimited;
-//     final String couponTags;
-//     final int isUser;
-//     final int isForEveryone;
-//     final int isAvailableForExpired;
-//     final int hasFavorited;
-//     final String thumbnail;
-//     final List<CouponPackagesDatum> couponPackagesData;
-//     final List<dynamic> media;
+class Coupon extends Equatable {
+  final int? id;
+  final String? title;
+  final dynamic subtitle;
+  final String? description;
+  final int? parentCompanyId;
+  final int? value;
+  final String? valueType;
+  final int? systemMaxSlash;
+  final int? customerMaxSlash;
+  final int? minSaving;
+  final int? maxSaving;
+  final DateTime? validFrom;
+  final DateTime? validTo;
+  final dynamic moreInfo;
+  final String? termsConditions;
+  final int? isActive;
+  final int? isSpecialCoupon;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? isLimited;
+  final String? couponTags;
+  final int? isUser;
+  final int? isForEveryone;
+  final int? isAvailableForExpired;
+  final int? hasFavorited;
+  final String? thumbnail;
+  // final List<CouponPackagesDatum> couponPackagesData;
+  // final List<dynamic>? media;
 
-//     Coupon({
-//         this.id,
-//         this.title,
-//         this.subtitle,
-//         this.description,
-//         this.parentCompanyId,
-//         this.value,
-//         this.valueType,
-//         this.systemMaxSlash,
-//         this.customerMaxSlash,
-//         this.minSaving,
-//         this.maxSaving,
-//         this.validFrom,
-//         this.validTo,
-//         this.moreInfo,
-//         this.termsConditions,
-//         this.isActive,
-//         this.isSpecialCoupon,
-//         this.createdAt,
-//         this.updatedAt,
-//         this.isLimited,
-//         this.couponTags,
-//         this.isUser,
-//         this.isForEveryone,
-//         this.isAvailableForExpired,
-//         this.hasFavorited,
-//         this.thumbnail,
-//         this.couponPackagesData,
-//         this.media,
-//     });
+  Coupon({
+    this.id,
+    this.title,
+    this.subtitle,
+    this.description,
+    this.parentCompanyId,
+    this.value,
+    this.valueType,
+    this.systemMaxSlash,
+    this.customerMaxSlash,
+    this.minSaving,
+    this.maxSaving,
+    this.validFrom,
+    this.validTo,
+    this.moreInfo,
+    this.termsConditions,
+    this.isActive,
+    this.isSpecialCoupon,
+    this.createdAt,
+    this.updatedAt,
+    this.isLimited,
+    this.couponTags,
+    this.isUser,
+    this.isForEveryone,
+    this.isAvailableForExpired,
+    this.hasFavorited,
+    this.thumbnail,
+    // this.couponPackagesData,
+    // this.media,
+  });
 
-//     factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
-//         id: json["id"],
-//         title: json["title"],
-//         subtitle: json["subtitle"],
-//         description: json["description"],
-//         parentCompanyId: json["parent_company_id"],
-//         value: json["value"],
-//         valueType: json["value_type"],
-//         systemMaxSlash: json["system_max_slash"],
-//         customerMaxSlash: json["customer_max_slash"],
-//         minSaving: json["min_saving"],
-//         maxSaving: json["max_saving"],
-//         validFrom: DateTime.parse(json["valid_from"]),
-//         validTo: DateTime.parse(json["valid_to"]),
-//         moreInfo: json["more_info"],
-//         termsConditions: json["terms_conditions"],
-//         isActive: json["is_active"],
-//         isSpecialCoupon: json["is_special_coupon"],
-//         createdAt: DateTime.parse(json["created_at"]),
-//         updatedAt: DateTime.parse(json["updated_at"]),
-//         isLimited: json["is_limited"],
-//         couponTags: json["coupon_tags"],
-//         isUser: json["is_user"],
-//         isForEveryone: json["is_for_everyone"],
-//         isAvailableForExpired: json["is_available_for_expired"],
-//         hasFavorited: json["hasFavorited"],
-//         thumbnail: json["thumbnail"],
-//         couponPackagesData: List<CouponPackagesDatum>.from(json["coupon_packages_data"].map((x) => CouponPackagesDatum.fromJson(x))),
-//         media: List<dynamic>.from(json["media"].map((x) => x)),
-//     );
+  factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
+        id: json["id"],
+        title: json["title"],
+        subtitle: json["subtitle"],
+        description: json["description"],
+        parentCompanyId: json["parent_company_id"],
+        value: json["value"],
+        valueType: json["value_type"],
+        systemMaxSlash: json["system_max_slash"],
+        customerMaxSlash: json["customer_max_slash"],
+        minSaving: json["min_saving"],
+        maxSaving: json["max_saving"],
+        validFrom: json["valid_from"] == null ? null : DateTime.parse(json["valid_from"]),
+        validTo: json["valid_to"] == null ? null : DateTime.parse(json["valid_to"]),
+        moreInfo: json["more_info"],
+        termsConditions: json["terms_conditions"],
+        isActive: json["is_active"],
+        isSpecialCoupon: json["is_special_coupon"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        isLimited: json["is_limited"],
+        couponTags: json["coupon_tags"],
+        isUser: json["is_user"],
+        isForEveryone: json["is_for_everyone"],
+        isAvailableForExpired: json["is_available_for_expired"],
+        hasFavorited: json["hasFavorited"],
+        thumbnail: json["thumbnail"],
+        // couponPackagesData: List<CouponPackagesDatum>.from(json["coupon_packages_data"].map((x) => CouponPackagesDatum.fromJson(x))),
+        // media: List<dynamic>.from(json["media"].map((x) => x)),
+      );
 
-//     Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "title": title,
-//         "subtitle": subtitle,
-//         "description": description,
-//         "parent_company_id": parentCompanyId,
-//         "value": value,
-//         "value_type": valueType,
-//         "system_max_slash": systemMaxSlash,
-//         "customer_max_slash": customerMaxSlash,
-//         "min_saving": minSaving,
-//         "max_saving": maxSaving,
-//         "valid_from": validFrom.toIso8601String(),
-//         "valid_to": validTo.toIso8601String(),
-//         "more_info": moreInfo,
-//         "terms_conditions": termsConditions,
-//         "is_active": isActive,
-//         "is_special_coupon": isSpecialCoupon,
-//         "created_at": createdAt.toIso8601String(),
-//         "updated_at": updatedAt.toIso8601String(),
-//         "is_limited": isLimited,
-//         "coupon_tags": couponTags,
-//         "is_user": isUser,
-//         "is_for_everyone": isForEveryone,
-//         "is_available_for_expired": isAvailableForExpired,
-//         "hasFavorited": hasFavorited,
-//         "thumbnail": thumbnail,
-//         "coupon_packages_data": List<dynamic>.from(couponPackagesData.map((x) => x.toJson())),
-//         "media": List<dynamic>.from(media.map((x) => x)),
-//     };
-// }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "subtitle": subtitle,
+        "description": description,
+        "parent_company_id": parentCompanyId,
+        "value": value,
+        "value_type": valueType,
+        "system_max_slash": systemMaxSlash,
+        "customer_max_slash": customerMaxSlash,
+        "min_saving": minSaving,
+        "max_saving": maxSaving,
+        "valid_from": validFrom!.toIso8601String(),
+        "valid_to": validTo!.toIso8601String(),
+        "more_info": moreInfo,
+        "terms_conditions": termsConditions,
+        "is_active": isActive,
+        "is_special_coupon": isSpecialCoupon,
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+        "is_limited": isLimited,
+        "coupon_tags": couponTags,
+        "is_user": isUser,
+        "is_for_everyone": isForEveryone,
+        "is_available_for_expired": isAvailableForExpired,
+        "hasFavorited": hasFavorited,
+        "thumbnail": thumbnail,
+        // "coupon_packages_data": List<dynamic>.from(couponPackagesData.map((x) => x.toJson())),
+        // "media": List<dynamic>.from(media.map((x) => x)),
+      };
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        subtitle,
+        description,
+        parentCompanyId,
+        value,
+        valueType,
+        systemMaxSlash,
+        customerMaxSlash,
+        minSaving,
+        maxSaving,
+        validFrom,
+        validTo,
+        moreInfo,
+        termsConditions,
+        isActive,
+        isSpecialCoupon,
+        createdAt,
+        updatedAt,
+        isLimited,
+        couponTags,
+        isUser,
+        isForEveryone,
+        isAvailableForExpired,
+        hasFavorited,
+        thumbnail,
+        // couponPackagesData,
+        // media,
+      ];
+}
 
 // class CouponPackagesDatum {
 //     final int id;
